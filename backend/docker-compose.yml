@@ -1,0 +1,46 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: SleepFromHistory_mysql
+    command: 
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --character-set-client-handshake=0
+      - --init-connect=SET NAMES utf8mb4
+      - --character-set-filesystem=utf8mb4
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: SleepFromHistory
+      MYSQL_USER: SleepFromHistory_user
+      MYSQL_PASSWORD: SleepFromHistory_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./config/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+    networks:
+      - SleepFromHistory_network
+
+  app:
+    build: .
+    container_name: SleepFromHistory_backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=SleepFromHistory_user
+      - DB_PASSWORD=SleepFromHistory_password
+      - DB_NAME=SleepFromHistory
+    networks:
+      - SleepFromHistory_network
+
+volumes:
+  mysql_data:
+
+networks:
+  SleepFromHistory_network:
+    driver: bridge
