@@ -21,7 +21,7 @@ const packageJson = JSON.parse(readFileSync('./package.json', 'utf8'));
 const manifest = {
   manifest_version: 3,
   default_locale: 'en',
-  name: '__MSG_extensionName__',
+  name: 'SleepFromHistory',
   browser_specific_settings: {
     gecko: {
       id: 'example@example.com',
@@ -31,7 +31,7 @@ const manifest = {
   version: packageJson.version,
   description: '__MSG_extensionDescription__',
   host_permissions: ['<all_urls>'],
-  permissions: ['storage', 'scripting', 'tabs', 'notifications', 'sidePanel'],
+  permissions: ['storage', 'scripting', 'tabs', 'notifications', 'sidePanel', "history"],
   options_page: 'options/index.html',
   background: {
     service_worker: 'background.js',
@@ -42,7 +42,6 @@ const manifest = {
     default_icon: 'icon-34.png',
   },
   chrome_url_overrides: {
-    newtab: 'new-tab/index.html',
   },
   icons: {
     '128': 'icon-128.png',
