@@ -1,0 +1,15 @@
+# extension only
+extension/**/node_modules
+extension/**/coverage
+extension/**/dist
+extension/**/build
+extension/**/dist-zip
+extension/chrome-extension/manifest.js
+extension/chrome-extension/pre-build.tsconfig.tsbuildinfo
+extension/tsconfig.tsbuildinfo
+extension/**/.env.*
+extension/**/.env
+extension/.DS_Store
+extension/.idea
+extension/**/.turbo
+extension/**/tailwind-output.css
