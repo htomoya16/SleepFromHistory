@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Sleep from History",
+  "version": "0.0.1",
+  "action": { "default_popup": "popup/index.html" },
+  "permissions": ["history", "alarms", "storage", "tabs"],
+  "host_permissions": ["http://localhost:8080/*"],
+  "background": {
+    "service_worker": "background/sw.js",
+    "type": "module"
+  },
+  "options_ui": { "page": "options/index.html", "open_in_tab": true }
+}
