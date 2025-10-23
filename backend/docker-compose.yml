@@ -1,6 +1,6 @@
 services:
   mysql:
-    image: mysql:8.0
+    image: mysql:8.4
     container_name: SleepFromHistory_mysql
     command: 
       - --character-set-server=utf8mb4
@@ -13,6 +13,7 @@ services:
       MYSQL_DATABASE: SleepFromHistory
       MYSQL_USER: SleepFromHistory_user
       MYSQL_PASSWORD: SleepFromHistory_password
+      TZ: UTC
     ports:
       - "3306:3306"
     volumes:
