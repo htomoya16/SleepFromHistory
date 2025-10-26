@@ -6,7 +6,7 @@ CREATE DATABASE IF NOT EXISTS sleepfromhistory
 USE sleepfromhistory;
 
 -- ユーザー
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
   id            BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   email         VARCHAR(255) NOT NULL UNIQUE,
   name          VARCHAR(100) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS users (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- データ取得元（拡張のインストール/端末プロファイル単位）
-CREATE TABLE IF NOT EXISTS sources (
+CREATE TABLE sources (
   id              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   user_id         BIGINT UNSIGNED NOT NULL,
   kind            ENUM('chrome') NOT NULL DEFAULT 'chrome',
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS sources (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- 推定アルゴリズムの実行ログ（再現性用）
-CREATE TABLE IF NOT EXISTS detection_runs (
+CREATE TABLE detection_runs (
   id                BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   user_id           BIGINT UNSIGNED NOT NULL,
   source_id         BIGINT UNSIGNED NULL,
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS detection_runs (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- 履歴の“空白”要約（プライバシー配慮でドメイン/タイトルのみ）
-CREATE TABLE IF NOT EXISTS history_gaps (
+CREATE TABLE history_gaps (
   id                BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   user_id           BIGINT UNSIGNED NOT NULL,
   source_id         BIGINT UNSIGNED NULL,
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS history_gaps (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- 睡眠区間（自動/手動、ユーザー確定可能）
-CREATE TABLE IF NOT EXISTS sleep_periods (
+CREATE TABLE sleep_periods (
   id               BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   user_id          BIGINT UNSIGNED NOT NULL,
   source_id        BIGINT UNSIGNED NULL,
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS sleep_periods (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ユーザーのフィードバック履歴（確定/却下/編集の差分）
-CREATE TABLE IF NOT EXISTS sleep_feedbacks (
+CREATE TABLE sleep_feedbacks (
   id               BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   user_id          BIGINT UNSIGNED NOT NULL,
   sleep_period_id  BIGINT UNSIGNED NOT NULL,
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS sleep_feedbacks (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ユーザー設定（検出閾値など）
-CREATE TABLE IF NOT EXISTS user_settings (
+CREATE TABLE user_settings (
   user_id                    BIGINT UNSIGNED NOT NULL,
   min_gap_minutes_for_sleep  INT NOT NULL DEFAULT 180,  -- 何分以上の空白で睡眠候補にするか
   usual_bedtime_start        TIME NULL,                 -- 例: '22:00:00'
