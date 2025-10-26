@@ -4,6 +4,7 @@ env "local" {
     # 差分計画用の一時DB
     dev-url = "docker://mysql/8.4"
     
+    # マイグレーション履歴の置き場
     migration {
         dir = "file://migrations"
         format = atlas
