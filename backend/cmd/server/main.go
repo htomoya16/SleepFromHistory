@@ -2,6 +2,10 @@ package main
 
 import (
 	"backend/database"
+	"backend/internal/handler"
+	"backend/internal/repository"
+	"backend/internal/routes"
+	"backend/internal/service"
 	"context"
 	"errors"
 	"net/http"
@@ -22,6 +26,11 @@ func main() {
 	}
 	defer db.Close()
 
+	// DI
+	healthRepo := repository.NewHealthRepository(db)
+	healthSevice := service.NewHealthService(healthRepo)
+	healthHandler := handler.NewHealthHandler(healthSevice)
+
 	// Echo インスタンスを作成
 	e := echo.New()
 
@@ -37,6 +46,9 @@ func main() {
 		middleware.CORS(),
 	)
 
+	// ルート設定
+	routes.SetupRoutes(e, healthHandler)
+
 	// ポート設定
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -51,6 +63,18 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		IdleTimeout:  60 * time.Second,
 	}
+
+	// ---- 起動ウォームアップ：依存OKならready ON ----
+	go func() {
+		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+		defer cancel()
+		// まずflagをONにしてから疎通を見る。
+		healthSevice.MarkReady()
+		if !healthSevice.Ready(ctx) {
+			// 依存がまだならflagをOFF
+			healthSevice.MarkNotReady()
+		}
+	}()
 
 	// ---- server start & wait for signal ----
 	// サーバ起動結果（エラー）を受け取るためのチャネルを用意する（バッファ1で送信ブロックを避ける）
@@ -76,6 +100,8 @@ func main() {
 	}
 
 	// ---- graceful shutdown ----
+	// まずreadyを落としてロードバランサから外れる（ドレイン）
+	healthSevice.MarkNotReady()
 	// 猶予時間を設定（ここでは10秒）
 	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
