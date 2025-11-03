@@ -65,8 +65,7 @@ RUN apk add --no-cache \
             tzdata \
             build-base \
             bash \
-            && go install github.com/air-verse/air@latest \
-            && go install github.com/go-delve/delve/cmd/dlv@latest
+            && go install github.com/air-verse/air@latest
 
 # 依存解決（初回ビルド短縮用。実運用は bind mount で上書きされる）
 COPY go.mod go.sum ./

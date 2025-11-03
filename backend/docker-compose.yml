@@ -78,7 +78,5 @@ services:
       - .:/app
       - go_build_cache:/root/.cache/go-build
       - go_mod_cache:/go/pkg/mod
-    cap_add: ["SYS_PTRACE"]
-    security_opt: ["seccomp=unconfined"]
     networks: [sleepfromhistory_network]
     restart: unless-stopped
