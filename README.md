@@ -57,7 +57,8 @@ git clone https://github.com/htomoya16/SleepFromHistory.git SleepFromHistory
 cd SleepFromHistory
 ```
 
-### 2. 初回プロジェクトを起動
+### 2. プロジェクトを起動(開発環境)
+#### 初回
 ```bash
 # Dockerコンテナを起動
 docker-compose up --build
@@ -66,21 +67,44 @@ docker-compose up --build
 docker-compose up -d --build
 ```
 
-### 3. 初回以降のプロジェクトを起動
+#### 初回以降
 ```bash
 # Dockerコンテナを起動
-docker-compose up
+docker compose --profile dev up
 
 # バックグラウンドで起動する場合
-docker-compose up -d
+docker compose --profile dev up -d
 ```
 
-### 4. 開発環境でアプリを起動
+#### 止め方
 ```bash
-go run cmd/server/main.go
+docker compose --profile dev down
 ```
 
----
+### 3. プロジェクトを起動(本番環境)
+#### 初回
+```bash
+# Dockerコンテナを起動
+docker compose --profile prod up --build
+
+# バックグラウンドで起動する場合
+docker compose --profile prod up -d --build
+```
+
+#### 初回以降
+```bash
+# Dockerコンテナを起動
+docker compose --profile prod up
+
+# バックグラウンドで起動する場合
+docker compose --profile prod up -d
+```
+
+#### 止め方
+```bash
+docker compose --profile dev down
+```
+
 
 ## 💡 Chrome 拡張の使い方
 
