@@ -81,7 +81,7 @@ docker compose --profile dev up -d
 docker compose --profile dev down
 ```
 
-### 3. プロジェクトを起動(開発環境)
+### 3. プロジェクトを起動(本番環境)
 #### 初回
 ```bash
 # Dockerコンテナを起動
