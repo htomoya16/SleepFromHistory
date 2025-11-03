@@ -105,6 +105,23 @@ docker compose --profile prod up -d
 docker compose --profile dev down
 ```
 
+### .envファイルの追加
+1. `.env.example`ファイルの名前を変更して`.env`ファイルに変更してください。
+2. 以下のコードのchangeme部分を各自自由に設定してください。
+```
+# MySQL
+MYSQL_ROOT_PASSWORD=changeme
+MYSQL_DATABASE=sleepfromhistory
+MYSQL_USER=sleepfromhistory_user
+MYSQL_PASSWORD=changeme
+MYSQL_PORT=3306
+MYSQL_TZ=UTC
+
+# アプリ
+APP_PORT=8080
+DB_HOST=mysql
+DB_PORT=3306
+```
 
 ## 💡 Chrome 拡張の使い方
 
