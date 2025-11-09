@@ -33,6 +33,18 @@ services:
     networks:
       - sleepfromhistory_network
 
+  migrate:
+    image: arigaio/atlas
+    depends_on:
+      - mysql
+    volumes:
+      - ./migrations:/migrations
+      - ./atlas.hcl:/atlas.hcl
+    command: [
+      "migrate", "apply",
+      "--env", "local"
+    ]
+
   # 本番（Dockerfile のステージ: prod）
   app:
     profiles: ["prod"]
@@ -42,6 +54,7 @@ services:
     container_name: sleepfromhistory_backend
     depends_on:
       - mysql
+      - migrate
     environment:
       DB_HOST: ${DB_HOST:-mysql}
       DB_PORT: ${DB_PORT:-3306}
@@ -63,6 +76,7 @@ services:
     container_name: sleepfromhistory_dev_backend
     depends_on:
       - mysql
+      - migrate
     environment:
       DB_HOST: ${DB_HOST:-mysql}
       DB_PORT: ${DB_PORT:-3306}
