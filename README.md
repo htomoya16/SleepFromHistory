@@ -61,10 +61,10 @@ cd SleepFromHistory
 #### 初回
 ```bash
 # Dockerコンテナを起動
-docker-compose up --build
+docker compose up --build
 
 # バックグラウンドで起動する場合
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 #### 初回以降
@@ -102,10 +102,10 @@ docker compose --profile prod up -d
 
 #### 止め方
 ```bash
-docker compose --profile dev down
+docker compose --profile prod down
 ```
 
-### .envファイルの追加
+### 4. .envファイルの追加
 1. `.env.example`ファイルの名前を変更して`.env`ファイルに変更してください。
 2. 以下のコードのchangeme部分を各自自由に設定してください。
 ```
@@ -121,6 +121,17 @@ MYSQL_TZ=UTC
 APP_PORT=8080
 DB_HOST=mysql
 DB_PORT=3306
+```
+
+### 5. Atlas によるマイグレーション適用
+#### Atlas のインストール（WSL 上で実行）
+```bash
+curl -sSf https://atlasgo.sh | sh
+```
+
+####　マイグレーション適用(4. でdocker compose upした状態)
+```bash
+atlas migrate apply --env local
 ```
 
 ## 💡 Chrome 拡張の使い方
