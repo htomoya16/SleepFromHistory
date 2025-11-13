@@ -11,4 +11,7 @@ env "local" {
     }
     # 実際に適用する接続先
     url = "mysql://sleepfromhistory_user:sleepfromhistory_password@localhost:3306/sleepfromhistory"
+    exclude = [
+        "atlas_schema_revisions",
+    ]
 }
